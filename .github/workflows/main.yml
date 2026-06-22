@@ -22,8 +22,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      # Étape 4 modifiée : Injection sécurisée des secrets GitHub dans l'environnement du serveur
-      - name: Étape 4 - Exécuter le test de connexion
+      - name: Étape 4 - Exécuter le test de connexion Redmine
         env:
           APP_URL: ${{ secrets.APP_URL }}
           APP_USERNAME: ${{ secrets.APP_USERNAME }}
@@ -31,9 +30,8 @@ jobs:
         run: |
           pytest tests/test_connexion.py --html=rapport_execution.html --self-contained-html
 
-      # NOUVELLE ÉTAPE 5 : Extraction et persistance du rapport HTML
       - name: Étape 5 - Sauvegarder le rapport de test HTML
-        if: always() # Condition QA cruciale : extrait le rapport même si le test à l'étape 4 échoue
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: rapport-qa-redmine
